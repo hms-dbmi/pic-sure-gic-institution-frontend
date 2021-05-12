@@ -1,6 +1,6 @@
 use picsure;
 
-SET @uuidAggResource = SELECT
+SELECT @uuidAggResource :=
   LOWER(CONCAT(
     SUBSTR(HEX(uuid), 1, 8), '-',
     SUBSTR(HEX(uuid), 9, 4), '-',
@@ -50,7 +50,7 @@ INSERT INTO role_privilege (role_id, privilege_id)
 	
 
 SET @uuidConn = REPLACE(UUID(),'-','');
-INSERT INTO `connection` VALUES (unhex(@uuidConn), 'Manual Token Connection', 'manual-token',null,null);
+INSERT INTO `connection` VALUES (unhex(@uuidConn), 'Manual Token Connection', 'manual-token','','');
 
 SET @uuidUser = REPLACE(UUID(),'-','');	
 INSERT INTO user VALUES (unhex(@uuidUser), null, null, null, unhex(@uuidConn),'CommonAreaUser',0,null,1,null);
