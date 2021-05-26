@@ -1,25 +1,25 @@
 use picsure;
 
-SELECT @uuidAggResource :=
-  LOWER(CONCAT(
+SELECT @uuidAggResource =
+  (LOWER(CONCAT(
     SUBSTR(HEX(uuid), 1, 8), '-',
     SUBSTR(HEX(uuid), 9, 4), '-',
     SUBSTR(HEX(uuid), 13, 4), '-',
     SUBSTR(HEX(uuid), 17, 4), '-',
     SUBSTR(HEX(uuid), 21)
   ))
-FROM resource where name like 'PIC-SURE Aggregate Resource%' limit 1;
+FROM resource where name like 'PIC-SURE Aggregate Resource%' limit 1);
 
 
 use auth;
 
 SET @uuidCountRule = REPLACE(UUID(),'-','');
 INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
-	VALUES (unhex(@uuidCountRule), 'HPDS Aggregate Counts', 'HPDS Counts', '$..expectedResultType', 1, 'COUNT', 0x00, 0x00, NULL, 0x00, 0x00);
+	VALUES (unhex(@uuidCountRule), 'HPDS Aggregate Counts', 'HPDS Counts', '$..expectedResultType', 4, 'COUNT', 0x00, 0x00, NULL, 0x00, 0x00);
 
 SET @uuidResourceRule = REPLACE(UUID(),'-','');
 INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
-	VALUES (unhex(@uuidResourceRule), 'Aggregate Only Access', 'Allow Access to Aggregate Resource', '$..resourceUUID', 1, @uuidAggResource, 0x00, 0x00, unhex(@uuidCountRule), 0x00, 0x00);
+	VALUES (unhex(@uuidResourceRule), 'Aggregate Only Access', 'Allow Access to Aggregate Resource', '$..resourceUUID', 4, @uuidAggResource, 0x00, 0x00, unhex(@uuidCountRule), 0x00, 0x00);
 	
 	
 INSERT INTO privilege (uuid, name, description, application_id)
@@ -38,8 +38,8 @@ INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 SET @uuidRole = REPLACE(UUID(),'-','');
 INSERT INTO role (uuid, name, description)
 	VALUES (unhex(@uuidRole),
-		'PIC-SURE Aggregate Count User',
-		'PIC-SURE Aggregate Count User.  Can perform aggregate count queries only.'
+		'PIC-SURE Aggregate Count Role',
+		'Can perform count queries using the aggregate resource only.'
 	);
 
 INSERT INTO role_privilege (role_id, privilege_id)
