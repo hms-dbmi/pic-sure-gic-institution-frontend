@@ -1,6 +1,6 @@
 use picsure;
 
-SELECT @uuidAggResource =
+SET @uuidAggResource = (SELECT
   (LOWER(CONCAT(
     SUBSTR(HEX(uuid), 1, 8), '-',
     SUBSTR(HEX(uuid), 9, 4), '-',
@@ -8,7 +8,7 @@ SELECT @uuidAggResource =
     SUBSTR(HEX(uuid), 17, 4), '-',
     SUBSTR(HEX(uuid), 21)
   )))
-FROM resource where name like 'PIC-SURE Aggregate Resource%' limit 1;
+FROM resource where name like 'PIC-SURE Aggregate Resource%' limit 1);
 
 use auth;
 
