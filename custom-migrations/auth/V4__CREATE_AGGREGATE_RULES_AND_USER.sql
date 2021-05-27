@@ -80,8 +80,8 @@ INSERT INTO role (uuid, name, description)
 
 INSERT INTO role_privilege (role_id, privilege_id)
 	VALUES (
-		(SELECT uuid FROM role WHERE name = 'PIC-SURE Aggregate Count User'),
-		(SELECT uuid FROM privilege WHERE name = 'AGGREGATE')
+		unhex(@uuidRole),
+		unhex(@uuidCountPrivilege)
 	);
 	
 
