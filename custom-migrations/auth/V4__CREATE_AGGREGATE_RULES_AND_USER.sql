@@ -15,7 +15,7 @@ use auth;
 SET @uuidCountPrivilege = REPLACE(UUID(),'-','');
 
 INSERT INTO privilege (uuid, name, description, application_id)
-	VALUES (unhex(REPLACE(uuid(),'-','')),
+	VALUES (@uuidCountPrivilege),
 		'AGGREGATE',
 		'Aggregiate Data Sharing privilege for PICSURE application',
 		(SELECT uuid FROM application WHERE name = 'PICSURE')
