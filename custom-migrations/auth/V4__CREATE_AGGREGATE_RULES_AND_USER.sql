@@ -12,6 +12,12 @@ FROM resource where name like 'PIC-SURE Aggregate Resource%' limit 1);
 
 use auth;
 
+SET @uuidResourceRule = REPLACE(UUID(),'-','');
+INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
+	VALUES (unhex(@uuidResourceRule), 'Aggregate Only Access', 'Allow Access to Aggregate Resource', '$..resourceUUID', 4, @uuidAggResource, 0x00, 0x00, unhex(@uuidCountRule), 0x00, 0x00);
+	
+	
+
 SET @uuidCountPrivilege = REPLACE(UUID(),'-','');
 
 INSERT INTO privilege (uuid, name, description, application_id)
@@ -26,16 +32,12 @@ SET @uuidCountRule = REPLACE(UUID(),'-','');
 INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
 	VALUES (unhex(@uuidCountRule), 'HPDS Aggregate Counts', 'HPDS counts', '$..expectedResultType', 4, 'COUNT', 0x00, 0x00, NULL, 0x00, 0x00);
 
-INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
+INSERT INTO accessRule_gate (accessRule_id, gate_id)
 	VALUES (
-		unhex(@uuidCountPrivilege),
-		unhex(@uuidCountRule)
-	);
+	unhex(@uuidCountRule),
+	unhex(@uuidResourceRule)
+	)
 	
-SET @uuidCountRule = REPLACE(UUID(),'-','');
-INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
-	VALUES (unhex(@uuidCountRule), 'HPDS Aggregate Cross Counts', 'HPDS cross counts', '$..expectedResultType', 4, 'CROSS_COUNT', 0x00, 0x00, NULL, 0x00, 0x00);
-
 INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 	VALUES (
 		unhex(@uuidCountPrivilege),
@@ -43,7 +45,29 @@ INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 	);
 	
 SET @uuidRule = REPLACE(UUID(),'-','');
+INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
+	VALUES (unhex(@uuidRule), 'HPDS Aggregate Cross Counts', 'HPDS cross counts', '$..expectedResultType', 4, 'CROSS_COUNT', 0x00, 0x00, NULL, 0x00, 0x00);
+
+INSERT INTO accessRule_gate (accessRule_id, gate_id)
+	VALUES (
+	unhex(@uuidRule),
+	unhex(@uuidResourceRule)
+	)
+	
+INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
+	VALUES (
+		unhex(@uuidCountPrivilege),
+		unhex(@uuidRule)
+	);
+	
+SET @uuidRule = REPLACE(UUID(),'-','');
 INSERT INTO access_rule VALUES (unhex(@uuidRule), 'AR_INFO_COLUMN_LISTING', 'Allow query to info_column_listing', '$..expectedResultType',  4, 'INFO_COLUMN_LISTING', 0, 0, NULL, 0, 0);	
+
+INSERT INTO accessRule_gate (accessRule_id, gate_id)
+	VALUES (
+	unhex(@uuidRule),
+	unhex(@uuidResourceRule)
+	)
 	
 INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 VALUES (
@@ -58,19 +82,7 @@ VALUES (
 	unhex(@uuidCountPrivilege),
 	unhex(@uuidRule)
 );
-	
-	
-SET @uuidResourceRule = REPLACE(UUID(),'-','');
-INSERT INTO access_rule (uuid, name, description, rule, type, value, checkMapKeyOnly, checkMapNode, subAccessRuleParent_uuid, isGateAnyRelation, isEvaluateOnlyByGates)
-	VALUES (unhex(@uuidResourceRule), 'Aggregate Only Access', 'Allow Access to Aggregate Resource', '$..resourceUUID', 4, @uuidAggResource, 0x00, 0x00, unhex(@uuidCountRule), 0x00, 0x00);
-	
-INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
-	VALUES (
-		unhex(@uuidCountPrivilege),
-		unhex(@uuidResourceRule)
-	);
-	
-	
+
 SET @uuidRole = REPLACE(UUID(),'-','');
 INSERT INTO role (uuid, name, description)
 	VALUES (unhex(@uuidRole),
