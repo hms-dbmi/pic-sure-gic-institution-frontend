@@ -36,7 +36,7 @@ INSERT INTO accessRule_gate (accessRule_id, gate_id)
 	VALUES (
 	unhex(@uuidCountRule),
 	unhex(@uuidResourceRule)
-	)
+	);
 	
 INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 	VALUES (
@@ -52,7 +52,7 @@ INSERT INTO accessRule_gate (accessRule_id, gate_id)
 	VALUES (
 	unhex(@uuidRule),
 	unhex(@uuidResourceRule)
-	)
+	);
 	
 INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 	VALUES (
@@ -67,7 +67,7 @@ INSERT INTO accessRule_gate (accessRule_id, gate_id)
 	VALUES (
 	unhex(@uuidRule),
 	unhex(@uuidResourceRule)
-	)
+	);
 	
 INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
 VALUES (

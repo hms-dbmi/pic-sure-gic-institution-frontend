@@ -28,14 +28,14 @@ INSERT INTO accessRule_gate (accessRule_id, gate_id)
 	VALUES (
 	(SELECT uuid FROM access_rule WHERE name = 'HPDS Aggregate Observation Cross Counts'),
 	unhex(@uuidResourceRule)
-	)
+	);
 	
 	
 INSERT INTO accessRule_gate (accessRule_id, gate_id)
 	VALUES (
 	(SELECT uuid FROM access_rule WHERE name = 'HPDS Aggregate Observation Counts'),
 	unhex(@uuidResourceRule)
-	)
+	);
 	
 	
 	INSERT INTO accessRule_privilege (privilege_id, accessRule_id)
