@@ -7,7 +7,7 @@ set -eo pipefail
 echo "🚀 Begin testing..."
 
 # Set query endpoint
-HOSTNAME=${1:-"http://localhost:80"}
+HOSTNAME=${1:-"https://localhost:443"}
 
 # Set bearer token
 BEARER_TOKEN=$(
@@ -19,7 +19,30 @@ BEARER_TOKEN=$(
 )
 
 # Set resource UUID
-RESOURCE_UUID=$(cat /usr/local/docker-config/RESOURCE_ID_RAW)
+RESOURCE_UUID=$(
+    sudo docker run -v /root/.my.cnf:/root/.my.cnf --network=host mysql mysql -se \
+    "
+        USE picsure;
+        SELECT
+            concat(
+                left(resource_uuid, 8),
+                '-',
+                substring(resource_uuid, 9, 4),
+                '-',
+                substring(resource_uuid, 13, 4),
+                '-',
+                substring(resource_uuid, 17, 4),
+                '-',
+                right(resource_uuid, 12)
+            ) AS resource_uuid
+        FROM (
+            SELECT lower(hex(uuid)) AS resource_uuid
+            FROM resource
+            WHERE name = 'PIC-SURE Aggregate Resource'
+            LIMIT 1
+        ) AS resource_uuid;
+    "
+)
 
 # Test query endpoint
 echo "  📝 Testing /query endpoint"
@@ -30,6 +53,7 @@ echo "    ✅ Testing queries with valid ResultTypes"
 
 VALID_RESULT_TYPES=(
     "COUNT"
+    "CROSS_COUNT"
     "INFO_COLUMN_LISTING"
     "OBSERVATION_COUNT"
     "OBSERVATION_CROSS_COUNT"
@@ -60,7 +84,6 @@ echo "    ❌ Testing queries failing ResultTypes"
 
 INVALID_RESULT_TYPES=(
     "DATAFRAME"
-    "CROSS_COUNT"
 )
 
 for RESULT_TYPE in ${INVALID_RESULT_TYPES[*]};
