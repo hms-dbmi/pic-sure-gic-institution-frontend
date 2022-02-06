@@ -23,8 +23,11 @@ Using the CSV loader may result in more resources being needed.
 
 
 <b> PIC-SURE Installation</b><br>
-Follow the directions for [PIC-SURE All-in-one](https://github.com/hms-dbmi/pic-sure-all-in-one "PIC-SURE All-in-one"), but use the "Create Institute Node" pipeline, instead of the "Initial Configuration Pipeline".
+Follow the directions for [PIC-SURE All-in-one](https://github.com/hms-dbmi/pic-sure-all-in-one "PIC-SURE All-in-one"), but use the "Create Institute Node" pipeline, instead of the "Initial Configuration Pipeline". 
+Set the project-specific override repository to https://github.com/hms-dbmi/pic-sure-gic-institution 
 Each site should run as close to the same code as possible to ensure compatibility. To facilitate this, all sites should build out of the same overrides repository and the same release-control repository. This repository contains the database set-up to correctly configure the access rules. 
 <br>GIC Institute repo: https://github.com/hms-dbmi/pic-sure-gic-institution 
 <br>GIC Release Control repo: https://github.com/hms-dbmi/pic-sure-gic-institution-release-control
+  
+The gic-institution-release-control repository uses the new default label, 'main' instead of 'master'.  The pic-sure-all-in-one configuration still uses 'master' as the default, since that matches the majority of the older repositories.  In Jenkins, click the 'Manage Jenkins' button on the left, then select 'Configure System'. In the 'Global Properties' section, change the value of the release_control_branch to "*/main". 
 <br>The PIC-SURE installation takes on average one week of effort from a full time software developer or systems admin.
