@@ -29,4 +29,4 @@ Follow the directions for [PIC-SURE All-in-one](https://github.com/hms-dbmi/pic-
 <p>Each site should run as close to the same code as possible to ensure compatibility. To facilitate this, all sites should build out of the same overrides repository and the same release-control repository. This repository contains the database set-up to correctly configure the access rules. 
 <br>GIC Institute repo: https://github.com/hms-dbmi/pic-sure-gic-institution 
 <br>GIC Release Control repo: https://github.com/hms-dbmi/pic-sure-gic-institution-release-control
-<p>The PIC-SURE installation takes on average one week of effort from a full time software developer or systems admin.
+<p>The PIC-SURE installation takes on average one week of effort from a full time software developer or systems admin. 
