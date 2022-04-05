@@ -29,3 +29,7 @@ COPY src/main/resources/favicon.ico /usr/local/apache2/htdocs/
 
 COPY horizontal-logo.png ${HTTPD_PREFIX}/htdocs/picsureui/static/logo.png
 COPY stacked-logo.png ${HTTPD_PREFIX}/htdocs/images/logo.png
+
+#Fix permissions for some systems
+RUN find /usr/local/apache2/htdocs -exec chmod a+r {} \;
+RUN find /usr/local/apache2/htdocs -type d -exec chmod a+x {} \;
