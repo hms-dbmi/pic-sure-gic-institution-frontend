@@ -1,0 +1,4 @@
+/* GIC has some longer names, so we make the login box wider */
+#frmAuth0Login {
+	width: 450px;
+}
