@@ -286,12 +286,11 @@ define([
       );
 
       $("#main-content").empty();
-      $("#main-content").append(this.datasetRequestsTemplate(settings));
       var requestSearchView = new requestSearch.View({
         model: new requestSearch.Model(),
       });
       requestSearchView.render();
-      $("#request-search-container").append(requestSearchView.$el);
+      $("#main-content").append(requestSearchView.$el);
     },
     defaultAction: function () {
       $(".header-btn.active").removeClass("active");

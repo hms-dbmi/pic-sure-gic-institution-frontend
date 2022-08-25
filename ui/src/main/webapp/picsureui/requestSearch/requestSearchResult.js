@@ -15,12 +15,12 @@ define([
       this.template = HBS.compile(requestSearchResultTemplate);
       this.render = this.render.bind(this);
       this.onDownloadClick = this.render.bind(this);
-      this.model.set("queryID", opts.queryResult.queryID);
+      this.model.set("queryID", opts.queryResult.id);
       this.model.set("queryStartDate", opts.queryResult.date);
       this.model.set("queryData", opts.queryResult.data);
     },
-    tagName: "div",
-    className: "request-search-result row",
+    tagName: "tr",
+    className: "request-result-row",
     events: {
       "click .request-result-data-button": "onDownloadClick",
     },
