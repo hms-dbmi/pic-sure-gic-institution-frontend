@@ -1,0 +1,25 @@
+<div id="dataset-requests" class="col-md-12">
+    <div class="row" style="margin-bottom: 1rem;">
+        <span style="font-weight: bold;">Dataset Requests</span>
+    </div>
+    <div class="row">
+        <div class="request-search-row">
+            <label style="font-weight: normal;" class="request-result-search-label" for="dataset-request-search-input">Search for query ID:</label>
+            <input style="display:inline-block"  id="dataset-request-search-input" class="request-search-box form-control" placeholder="Search..." value="{{searchValue}}">
+            </input>
+            <button id="dataset-request-search-clear-button" class="request-search-clear-button btn btn-lg glyphicon glyphicon-remove-circle"></button>
+            <button id="dataset-request-search-button" class="request-search-button">Search</button>
+        </div>
+        <table class="request-result-table">
+            <thead id="request-result-header" style="display:none">
+                <tr class="request-result-row">
+                    <th class="request-result-data request-result-data-header">Query ID</th>
+                    <th class="request-result-data request-result-data-header">Date</th>
+                    <th class="request-result-data request-result-data-header">Download JSON</th>
+                </tr>
+            </thead>
+            <tbody id="request-search-result-container">
+            </tbody>
+        </table>
+    </div>
+</div>
