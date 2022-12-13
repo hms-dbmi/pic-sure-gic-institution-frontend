@@ -23,10 +23,32 @@ Using the CSV loader may result in more resources being needed.
 
 
 <b> PIC-SURE Installation</b><br>
-Follow the directions for [PIC-SURE All-in-one](https://github.com/hms-dbmi/pic-sure-all-in-one "PIC-SURE All-in-one"), but use the "Create Institute Node" pipeline, instead of the "Initial Configuration Pipeline". 
-<br> Set the project-specific override repository to https://github.com/hms-dbmi/pic-sure-gic-institution 
-<br> The gic-institution-release-control repository uses the new default label, 'main' instead of 'master'.  The pic-sure-all-in-one configuration still uses 'master' as the default, since that matches the majority of the older repositories.  In Jenkins, click the 'Manage Jenkins' button on the left, then select 'Configure System'. In the 'Global Properties' section, change the value of the release_control_branch to "*/main". 
-<p>Each site should run as close to the same code as possible to ensure compatibility. To facilitate this, all sites should build out of the same overrides repository and the same release-control repository. This repository contains the database set-up to correctly configure the access rules. 
-<br>GIC Institute repo: https://github.com/hms-dbmi/pic-sure-gic-institution 
-<br>GIC Release Control repo: https://github.com/hms-dbmi/pic-sure-gic-institution-release-control
-<p>The PIC-SURE installation takes on average one week of effort from a full time software developer or systems admin. 
+Follow the directions for [PIC-SURE All-in-one](https://github.com/hms-dbmi/pic-sure-all-in-one "PIC-SURE All-in-one") Steps 1 - 4.
+
+Step 5: In Jenkins you will see 5 tabs: All, Configuration, Deployment, PIC-SURE Builds, Supporting Jobs
+
+Step 5a: <br> The gic-institution-release-control repository uses the new default label, 'main' instead of 'master'.  The pic-sure-all-in-one configuration still uses 'master' as the default, since that matches the majority of the older repositories.  In Jenkins, click the 'Manage Jenkins' button on the left, then select 'Configure System'. In the 'Global Properties' section, change the value of the release_control_branch to "*/main". 
+
+Step 5b: Do not run the "Initial Configuration Pipeline". Instead run "Create Institute Node" pipeline. 
+
+
+Step 6: Provide the following information:
+
+    - AUTH0_CLIENT_ID: This is the client_id of your Auth0 Application
+
+    - AUTH0_CLIENT_SECRET: This is the client_secret of your Auth0 Application
+
+    - AUTH0_TENANT: This is the first part of your Auth0 domain, for example if your domain is avillachlab.auth0.com you would   enter avillachlab in this field.
+
+    - EMAIL: This is the Google account that will be the initial admin user.
+
+    - PROJECT_SPECIFIC_OVERRIDE_REPOSITORY: This is the repo that contains the project specific overrides for the GIC project: https://github.com/hms-dbmi/pic-sure-gic-institution 
+
+    - RELEASE_CONTROL_REPOSITORY: This is the repo that contains the build-spec.json file for the GIC project. This file controls what code is built and deployed: https://github.com/hms-dbmi/pic-sure-gic-institution-release-control
+
+Note: Ensure none of these fields contain leading or trailing whitespace, the values must be exact.
+
+<p>Continue to follow the remaining steps in the PIC-SURE All-in-one.</p> 
+
+
+<p>Note: The PIC-SURE installation takes on average one week of effort from a full time software developer or systems admin. </p>
