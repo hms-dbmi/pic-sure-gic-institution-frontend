@@ -1,5 +1,6 @@
 define([
   "backbone",
+  "underscore",
   "common/session",
   "login/login",
   "header/header",
@@ -24,6 +25,7 @@ define([
   "requestSearch/requestSearch",
 ], function (
   Backbone,
+    _,
   session,
   login,
   header,
