@@ -22,10 +22,33 @@ Using the CSV loader may result in more resources being needed.
 * Since a precise calculation to determine the resources required for loading data takes a prohibitive effort, a trial and error approach is the most practical way to determine what the loading resource environment is for any set of data.
 
 
-<b> PIC-SURE Installation</b><br>
-Follow the directions for [PIC-SURE All-in-one](https://github.com/hms-dbmi/pic-sure-all-in-one "PIC-SURE All-in-one") Steps 1 - 4.
+## PIC-SURE Installation<br>
+For additonal information about PIC-SURE and prerequisites for using the All-in-one click [here](https://github.com/hms-dbmi/pic-sure-all-in-one "here")
 
-Step 5: In Jenkins you will see 5 tabs: All, Configuration, Deployment, PIC-SURE Builds, Supporting Jobs
+  <b> Steps to install on a fresh Centos 7 installation:</b>
+
+1. Install Git
+
+`sudo yum -y install git`
+
+2. Clone the PIC-SURE All-in-one repository
+
+`git clone https://github.com/hms-dbmi/pic-sure-all-in-one`
+
+3. Install the dependencies and build the Jenkins container
+
+`cd pic-sure-all-in-one/initial-configuration`
+
+`sudo ./install-dependencies.sh`
+
+4. Browse to Jenkins server
+Point your browser at your server's IP on port `8080`. 
+
+For example, if your server has IP `10.109.190.146`, please browse to http://10.109.190.146:8080
+
+Note: Work with your local IT department to ensure that this port is not available to the public internet, but is accessible to you on your intranet or VPN. Anyone with access to this port can launch any application they wish on your server.
+
+  Step 5: In Jenkins you will see 5 tabs: All, Configuration, Deployment, PIC-SURE Builds, Supporting Jobs
 
 Step 5a: <br> The gic-institution-release-control repository uses the new default label, 'main' instead of 'master'.  The pic-sure-all-in-one configuration still uses 'master' as the default, since that matches the majority of the older repositories.  In Jenkins, click the 'Manage Jenkins' button on the left, then select 'Configure System'. In the 'Global Properties' section, change the value of the release_control_branch to "*/main". 
 
