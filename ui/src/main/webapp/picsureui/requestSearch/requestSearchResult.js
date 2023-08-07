@@ -5,7 +5,7 @@ define([
 ], function (BB, HBS, requestSearchResultTemplate) {
   var requestSearchResultModel = BB.Model.extend({
     defaults: {
-      queryID: "",
+      s3Directory: "",
       queryStartDate: "",
       queryData: {},
     },
@@ -15,11 +15,11 @@ define([
       this.template = HBS.compile(requestSearchResultTemplate);
       this.render = this.render.bind(this);
       this.onDownloadClick = this.render.bind(this);
-      this.model.set("queryID", opts.queryResult.id);
+      this.model.set("s3Directory", opts.queryResult.id);
       this.model.set("queryStartDate", opts.queryResult.date);
       this.model.set("queryData", opts.queryResult.data);
     },
-    tagName: "tr",
+    tagName: "div",
     className: "request-result-row",
     events: {
       "click .request-result-data-button": "onDownloadClick",
@@ -33,7 +33,7 @@ define([
         encodeURIComponent(JSON.stringify(this.model.get("queryData")));
       var link = document.createElement("a");
       link.setAttribute("href", downloadData);
-      link.setAttribute("download", this.model.get("queryID") + ".json");
+      link.setAttribute("download", this.model.get("s3Directory") + ".json");
       document.body.appendChild(link); // Required for FF
       link.click();
     },
