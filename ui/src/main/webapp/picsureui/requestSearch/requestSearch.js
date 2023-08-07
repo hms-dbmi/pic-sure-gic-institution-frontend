@@ -29,6 +29,10 @@ define([
     },
     searchClearButtonHandler: function (event) {
       $("input.request-search-box", this.$el).val("");
+      $("#request-result-header").css("display", "none");
+      $("#request-search-result-container").css("display", "none");
+      $("#send-data-header").css("display", "none");
+      $("#send-data-body").css("display", "none");
       this.model.set("searchTerm", "");
     },
     searchButtonHandler: function (event) {
@@ -56,6 +60,10 @@ define([
       $("#request-search-result-container").empty();
       if (result.error) {
         $("#request-result-header").css("display", "none");
+        $("#request-search-result-container").css("display", "none");
+        $("#send-data-header").css("display", "none");
+        $("#send-data-body").css("display", "none");
+        $("#dataset-request-search-input").val("")
         $("#request-search-result-container").append(
           '<div class="request-search-none">No Results Found</div>'
         );
@@ -67,7 +75,8 @@ define([
             ...result,
           },
         });
-        $("#request-result-header").css("display", "table-header-group");
+        $("#request-result-header").css("display", "");
+        $("#request-search-result-container").css("display", "");
         requestSearchResultView.render();
         $("#request-search-result-container").append(
           requestSearchResultView.$el
