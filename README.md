@@ -67,7 +67,7 @@ Step 6: Provide the following information:
 
     - EMAIL: This is the Google account that will be the initial admin user.
 
-    - PROJECT_SPECIFIC_OVERRIDE_REPOSITORY: This is the repo that contains the project specific overrides for the GIC project: https://github.com/hms-dbmi/pic-sure-gic-institution 
+    - PROJECT_SPECIFIC_OVERRIDE_REPOSITORY: This is the repo that contains the project specific overrides for the GIC project: https://github.com/hms-dbmi/pic-sure-gic-institution-frontend
 
     - RELEASE_CONTROL_REPOSITORY: This is the repo that contains the build-spec.json file for the GIC project. This file controls what code is built and deployed: https://github.com/hms-dbmi/pic-sure-gic-institution-release-control
 
