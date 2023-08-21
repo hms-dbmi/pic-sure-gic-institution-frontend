@@ -2,7 +2,7 @@ define(["common/transportErrors"], function (transportErrors) {
   var handleResponse = function (response) {
     var dateObj = new Date(response.startTime);
     var result = {
-      id: response.resultMetadata.queryJson.commonAreaUUID,
+      id: response.resourceResultId,
       date: formatDate(dateObj.toISOString()),
       data: response.resultMetadata.queryJson,
       error: false,
