@@ -17,6 +17,7 @@ define([
       this.model.set("site", opts.queryResult.metadata.site);
       this.model.set("sharingStatus", opts.queryResult.metadata.sharingStatus);
     },
+    preinitialize: function () {},
     tagName: "div",
     className: "request-result-row",
     reset: function () {
