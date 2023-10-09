@@ -3,13 +3,13 @@ define([
   "handlebars",
   "text!requestSearch/dataSharingResult.hbs",
 ], function (BB, HBS, dataSharingResultTemplate) {
-  var requestSearchResultModel = BB.Model.extend({
+  var dataSharingResultModel = BB.Model.extend({
     defaults: {
       site: "",
       sharingStatus: "",
     },
   });
-  var requestSearchResultView = BB.View.extend({
+  var dataSharingResultView = BB.View.extend({
     initialize: function (opts) {
       this.template = HBS.compile(dataSharingResultTemplate);
       this.render = this.render.bind(this);
@@ -27,7 +27,7 @@ define([
     },
   });
   return {
-    View: requestSearchResultView,
-    Model: requestSearchResultModel,
+    View: dataSharingResultView,
+    Model: dataSharingResultModel,
   };
 });
