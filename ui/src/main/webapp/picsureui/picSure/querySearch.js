@@ -5,6 +5,7 @@ define(["common/transportErrors"], function (transportErrors) {
       id: response.resourceResultId,
       date: formatDate(dateObj.toISOString()),
       data: response.resultMetadata.queryJson,
+      metadata: JSON.parse(response.resultMetadata.queryResultMetadata),
       error: false,
     };
     return result;

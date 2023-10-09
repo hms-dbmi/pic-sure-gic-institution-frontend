@@ -5,7 +5,8 @@ define([
   "handlebars",
   "text!requestSearch/requestSearch.hbs",
   "requestSearch/requestSearchResult",
-], function ($, search, BB, HBS, requestSearchTemplate, requestSearchResult) {
+  "requestSearch/dataSharingResult",
+], function ($, search, BB, HBS, requestSearchTemplate, requestSearchResult, dataSharingResult) {
   var requestSearchModel = BB.Model.extend({
     defaults: {
       searchTerm: "",
@@ -31,6 +32,7 @@ define([
       $("input.request-search-box", this.$el).val("");
       $("#request-result-header").css("display", "none");
       $("#request-search-result-container").css("display", "none");
+      $("#request-sharing-result-container").css("display", "none");
       $("#send-data-header").css("display", "none");
       $("#send-data-body").css("display", "none");
       this.model.set("searchTerm", "");
@@ -58,9 +60,11 @@ define([
     },
     showResult: function (result) {
       $("#request-search-result-container").empty();
+      $("#request-sharing-result-container").empty();
       if (result.error) {
         $("#request-result-header").css("display", "none");
         $("#request-search-result-container").css("display", "none");
+        $("#request-sharing-result-container").css("display", "none");
         $("#send-data-header").css("display", "none");
         $("#send-data-body").css("display", "none");
         $("#dataset-request-search-input").val("")
@@ -68,18 +72,24 @@ define([
           '<div class="request-search-none">No Results Found</div>'
         );
       } else {
-        //clear out any old data
         var requestSearchResultView = new requestSearchResult.View({
           model: new requestSearchResult.Model(),
-          queryResult: {
-            ...result,
-          },
+          queryResult: { ...result },
+        });
+        var dataSharingResultView = dataSharingResult.View({
+            model: new dataSharingResult.Model(),
+            queryResult: { ...result },
         });
         $("#request-result-header").css("display", "");
         $("#request-search-result-container").css("display", "");
+        $("#request-sharing-result-container").css("display", "");
         requestSearchResultView.render();
+        dataSharingResultView.render();
         $("#request-search-result-container").append(
           requestSearchResultView.$el
+        );
+        $("#request-sharing-result-container").append(
+          dataSharingResultView.$el
         );
       }
     },
