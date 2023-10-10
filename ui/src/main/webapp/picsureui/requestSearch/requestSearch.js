@@ -60,7 +60,7 @@ define([
     },
     showResult: function (result) {
       $("#request-search-result-container").empty();
-      $("#request-sharing-result-container").empty();
+      $("#send-data-body").empty();
       if (result.error) {
         $("#request-result-header").css("display", "none");
         $("#request-search-result-container").css("display", "none");
