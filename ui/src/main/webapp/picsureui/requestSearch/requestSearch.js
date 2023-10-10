@@ -76,7 +76,7 @@ define([
           model: new requestSearchResult.Model(),
           queryResult: { ...result },
         });
-        var dataSharingResultView = dataSharingResult.View({
+        var dataSharingResultView = new dataSharingResult.View({
             model: new dataSharingResult.Model(),
             queryResult: { ...result },
         });
