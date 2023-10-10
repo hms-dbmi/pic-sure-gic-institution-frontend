@@ -83,12 +83,14 @@ define([
         $("#request-result-header").css("display", "");
         $("#request-search-result-container").css("display", "");
         $("#request-sharing-result-container").css("display", "");
+        $("#send-data-header").css("display", "");
+        $("#send-data-body").css("display", "");
         requestSearchResultView.render();
         dataSharingResultView.render();
         $("#request-search-result-container").append(
           requestSearchResultView.$el
         );
-        $("#request-sharing-result-container").append(
+        $("#send-data-body").append(
           dataSharingResultView.$el
         );
       }
