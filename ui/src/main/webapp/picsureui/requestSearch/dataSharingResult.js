@@ -13,11 +13,9 @@ define([
     initialize: function (opts) {
       this.template = HBS.compile(dataSharingResultTemplate);
       this.render = this.render.bind(this);
-      this.onDownloadClick = this.render.bind(this);
       this.model.set("site", opts.queryResult.metadata.site);
       this.model.set("sharingStatus", opts.queryResult.metadata.sharingStatus);
     },
-    preinitialize: function () {},
     tagName: "div",
     className: "request-result-row",
     reset: function () {
