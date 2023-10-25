@@ -71,10 +71,6 @@ define([
                     return filterString.map(item => `<li>${item}</li>`).join('');
 				}
 			}
-		},
-        renderExt: function(package){
-            console.log('dataset-view override', package.dataset)
-            console.log('consequences index')
-        }
+		}
     }
 });
