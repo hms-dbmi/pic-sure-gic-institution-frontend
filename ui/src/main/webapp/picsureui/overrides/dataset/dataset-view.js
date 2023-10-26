@@ -1,24 +1,4 @@
-define([
-    "underscore",
-    "text!filter/variant-data.json"
-], function(_, variantDataJson) {
-    // Create an index between the consequence and it's severity so we can group in the ui
-    const variantConsequenceIndex = JSON.parse(variantDataJson)?.consequences.reduce((map, severity) => {
-        severity.children.forEach(({text}) => map[text] = severity.text);
-        return map;
-    }, {});
-
-    // Given some list of selected consequences, return a grouped map of consequences by severity
-    const groupConsequences = function(consequences){
-        return consequences.reduce((map, consequence) => {
-            const severity = variantConsequenceIndex[consequence];
-            const severityList = map[severity] || [];
-            severityList.push(consequence);
-            map[severity] = severityList;
-            return map;
-        }, {});
-    };
-    
+define([ "underscore" ], function(_) {
     const categoryVariant = function(filter){
         const {
             Gene_with_variant: gene = [],
@@ -33,9 +13,7 @@ define([
             list.push(`<span class="list-title">Variant Frequency:</span> ${frequency.join(', ')}`);
         }
         if(consequenceList.length > 0){
-            const conString = Object.entries(groupConsequences(consequenceList))
-                .map(([severity, consequences]) => `<li><span class="list-title">${severity}:</span> ${consequences.join(', ')}</li>`);
-            list.push(`<span class="list-title">Calculated Variant Consequence</span><ul>${conString.join('')}</ul>`);
+            list.push(`<span class="list-title">Calculated Variant Consequence:</span> ${consequenceList.join(', ')}`);
         }
         return list.join('<br />');
     };
