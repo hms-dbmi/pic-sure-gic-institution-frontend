@@ -16,18 +16,8 @@
    width: 141px;
 }
 
-.request-search-button {
-   padding: 0 1.5rem;
-   margin-left: 1.5rem;
-   border: var(--picsure-alt);
-   border-width: 2px;
-   border-style: solid;
-   border-radius: 3px;
-   padding: 6px 12px;
-}
-
-.request-search-button:hover {
-   background: var(--picsure-alt);
+.btn-outline.primary {
+    color: black;
 }
 
 .request-search-clear-button:hover {
