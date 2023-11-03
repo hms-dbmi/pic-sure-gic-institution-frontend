@@ -21,8 +21,8 @@ define([
     className: "request-search-entry margin-top-ten",
     events: {
       "keyup input.request-search-box": "enterButtonEventHandler",
-      "click .request-search-button": "searchButtonHandler",
-      "click .request-search-clear-button": "searchClearButtonHandler",
+      "click #dataset-request-search-button": "searchButtonHandler",
+      "click #dataset-request-search-clear-button": "searchClearButtonHandler",
     },
     reset: function () {
       this.model.clear().set(this.model.defaults);
@@ -73,6 +73,7 @@ define([
           model: new requestSearchResult.Model(),
           queryResult: {
             ...result,
+            uuid: this.model.get("searchTerm")
           },
         });
         $("#request-result-header").css("display", "");
