@@ -48,13 +48,13 @@ define([
         $(".close").click();
         $("#data-request-btn").focus();
       };
-      const onDownload = () => {
-        console.log('download button');
-      }
       const data = this.model.get("queryData");
       data.query.uuid = this.model.get("queryId");
       modal.displayModal(
-          new viewDataset(data, { onClose, onDownload }),
+          new viewDataset(data, {
+            onClose,
+            onDownload: undefined // add a method here to get the download button to auto populate in the dataset view modal
+          }),
           "View Dataset",
           onClose,
           { width: "40%" }
