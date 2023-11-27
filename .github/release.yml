@@ -1,7 +1,4 @@
 changelog:
-  exclude:
-    labels:
-      - ignore-for-release
   categories:
     - title: Breaking Changes
       labels:
@@ -15,5 +12,6 @@ changelog:
     - title: Bug Fixes
       labels:
         - bug
-
-
+    - title: All
+      labels:
+        - '*'
