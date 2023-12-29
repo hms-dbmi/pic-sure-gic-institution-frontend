@@ -1,27 +1,22 @@
 <div id="dataset-requests" class="col-md-12 centered-flex-container">
-    <div style="width: 90%;">
-        <span class="circle-border">1</span><h2 class="header-with-icon">Find & Review Datasets</h2>
-    </div>
-    <div style="width: 80%; padding-bottom: 20px;" class="soft-border">
+    <div id="dataset-request-1" style="width: 90%; margin-bottom: 10px;">
+        <span class="circle-border">1</span>
+        <h2 class="header-with-icon" style="display: inline;">Search for Dataset ID:</h2>
         <!--Search Bar -->
-        <div class="col-md-12" style="padding-bottom: 20px;">
-            <label style="font-weight: normal;" class="request-result-search-label" for="dataset-request-search-input">
-                Search by Dataset ID:
-            </label>
-            <input style="display:inline-block" id="dataset-request-search-input"
-                    class="request-search-box form-control" placeholder="001234567-89ab-cdef-fedc-98765432100"
-                    value="{{searchValue}}"
-            >
-            </input>
-            <button id="dataset-request-search-button" class="btn btn-primary">Search</button>
-            <button id="dataset-request-search-clear-button" class="btn btn-outline danger">Reset</button>
-        </div>
-
+        <input style="display:inline-block" id="dataset-request-search-input"
+                class="request-search-box form-control" placeholder="001234567-89ab-cdef-fedc-98765432100"
+                value="{{searchValue}}"
+        >
+        </input>
+        <button id="dataset-request-search-button" class="btn btn-primary">Search</button>
+    </div>
+    <div id="dataset-request-2" style="width: 90%; display:none;">
+        <span class="circle-border">2</span>
+        <h2 class="header-with-icon" style="display: inline;">Review Dataset Request:</h2>
         <!--Results Table-->
-        <div id="request-result-header" style="display:none">
-            <div class="col-md-4 request-result-header"><h4>Project Name</h4></div>
-            <div class="col-md-4 request-result-header"><h4>Date Created</h4></div>
-            <div class="col-md-4 request-result-header"><h4>Download Files</h4></div>
+        <div id="request-result-header">
+            <div class="col-md-6 request-result-header"><h4>Dataset Information</h4></div>
+            <div class="col-md-6 request-result-header"><h4>Data Request Approval</h4></div>
         </div>
         <div class="col-md-12 centered-flex-container">
             <div class="divider"></div>
@@ -31,22 +26,4 @@
         </div>
     </div>
 
-    <!--Data Transmission Section-->
-    <div id="send-data-header" style="width: 90%; display: none;">
-        <span class="circle-border">2</span><h2 class="header-with-icon">Send Data to Service Workbench</h2>
-    </div>
-    <div id="send-data-body" style="width: 80%; display: none;" class="soft-border">
-        <div class="col-md-4 request-result-header"><h4>Send Data to SWB</h4></div>
-        <div class="col-md-4 request-result-header"><h4>Data Sent to:</h4></div>
-        <div class="col-md-4 request-result-header"><h4>Status</h4></div>
-        <div class="col-md-12 centered-flex-container">
-            <div class="divider"></div>
-        </div>
-        <div class="col-md-4 request-result-header">
-            <h3 class="fa-solid fa-arrow-up-from-bracket request-result-icon"></h3>Send patient level data</div>
-        <div class="col-md-4 request-result-header">CHOP</div>
-        <div class="col-md-4 request-result-header">
-            <i class="fa-solid success fa-circle-check request-result-icon"></i> Sent (2023-04-06)
-        </div>
-    </div>
 </div>

@@ -1,10 +1,57 @@
-<div class="col-md-4 request-result-header">{{s3Directory}}</div>
-<div class="col-md-4 request-result-header">{{queryStartDate}}</div>
-<div class="col-md-4 centered-flex-container">
+<div class="col-md-6 centered-flex-container">
     <div style="padding: 5px;"><button id="data-request-btn" class="btn btn-outline primary">
         <i class="fa-solid fa-file-pdf fa-xl request-result-icon"></i>Data Request Summary</button>
     </div>
-    <div style="padding: 5px;"><button id="ids-and-consents-btn" class="btn btn-outline primary">
+    <div style="padding: 5px; margin-bottom: 10px;"><button id="ids-and-consents-btn" class="btn btn-outline primary">
         <i class="fa-solid fa-file fa-xl request-result-icon"></i>Patient IDs &amp; Consents</button>
     </div>
 </div>
+<div class="col-md-6 request-result-header">
+    <label for="start">Approved by SDAC</label>
+    <input
+        type="date" id="query-approved" name="query-approved"
+        value="{{approved}}" min="2000-01-01" max="2039-01-18"
+    />
+</div>
+{{#if approved}}
+    <div id="dataset-request-3" style="width: 100%;">
+        <div class="col-md-12">
+            <span class="circle-border">3</span>
+            <h2 class="header-with-icon" style="display: inline;">Share Patient-Level Data</h2>
+        </div>
+
+        <div id="send-data-body">
+            <div class="col-md-4 request-result-header"><h4>Data Storage Location</h4></div>
+            <div class="col-md-4 request-result-header"><h4>Send Data to SWB</h4></div>
+            <div class="col-md-4 request-result-header"><h4>Status</h4></div>
+            <div class="col-md-12 centered-flex-container">
+                <div class="divider"></div>
+            </div>
+            <div class="col-md-4 request-result-header">
+                {{#if site}}
+                    <span>{{site}}</span>
+                {{else}}
+                    <select id="site-select">
+                        {{#each sites}}
+                            <option value="{{.}}">{{.}}</option>
+                        {{/each}}
+                    </select>
+                {{/if}}
+            </div>
+            <div class="col-md-4 request-result-header">
+                <button id="upload-data-button" {{#if disableUpload}}disabled="true"{{/if}}>
+                    <h3 class="fa-solid fa-arrow-up-from-bracket request-result-icon"></h3>
+                    Send patient level data
+                </button>
+            </div>
+            <div class="col-md-4 request-result-header">
+                <div>
+                    <i class="fa-solid {{genomicStatusIcon}} request-result-icon"></i> Genomic Data: {{genomicStatus}}
+                </div>
+                <div>
+                    <i class="fa-solid {{phenotypicStatusIcon}} request-result-icon"></i> Phenotypic Data: {{phenotypicStatus}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
