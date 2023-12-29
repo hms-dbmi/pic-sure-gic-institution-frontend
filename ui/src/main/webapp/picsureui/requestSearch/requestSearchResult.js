@@ -7,31 +7,128 @@ define([
   requestSearchResultTemplate,
   modal, viewDataset
 ) {
+  var statusIconMapping = {
+    'Uploaded': 'fa-circle-check',
+    'Unsent': 'fa-circle-xmark',
+    'Unknown': 'fa-circle-question',
+    'Error': 'fa-circle-xmark',
+    'Uploading': 'fa-paper-plane'
+  };
   var requestSearchResultModel = BB.Model.extend({
     defaults: {
       s3Directory: "",
       queryStartDate: "",
       queryData: {},
+      approved: "",
+      sites: [],
+      disableUpload: "true",
     },
   });
   var requestSearchResultView = BB.View.extend({
     initialize: function (opts) {
       this.template = HBS.compile(requestSearchResultTemplate);
       this.render = this.render.bind(this);
+      this.approveQueryForUpload = this.approveQueryForUpload.bind(this);
+      this.fetchQueryStatus = this.fetchQueryStatus.bind(this);
+      this.populateQueryStatus = this.populateQueryStatus.bind(this);
+      this.populateSites = this.populateSites.bind(this);
+      this.setSite = this.setSite.bind(this);
+      this.uploadData = this.uploadData.bind(this);
       this.onDownloadClick = this.render.bind(this);
       this.model.set("s3Directory", opts.queryResult.id);
       this.model.set("queryStartDate", opts.queryResult.date);
       this.model.set("queryId", opts.queryResult.uuid);
       this.model.set("queryData", opts.queryResult.data);
+      this.fetchQueryStatus();
     },
     tagName: "div",
     className: "request-result-row",
     events: {
       "click .request-result-data-button": "onDownloadClick",
-      "click #data-request-btn": "openDataRequestModal"
+      "click #data-request-btn": "openDataRequestModal",
+      "click #upload-data-button": "uploadData",
+      "input #query-approved": "approveQueryForUpload",
+      "change #site-select": "setSite"
     },
     reset: function () {
       this.model.clear().set(this.model.defaults);
+    },
+    fetchQueryStatus() {
+        var queryID = this.model.get("queryId");
+        var populateQueryStatus = this.populateQueryStatus;
+        var populateSites = this.populateSites;
+        $.ajax({
+            url: window.location.origin + "/picsure/proxy/uploader/status/" + queryID,
+            headers: {
+              Authorization: "Bearer " + JSON.parse(sessionStorage.getItem("session")).token,
+            },
+            contentType: "application/json",
+            type: "GET",
+            success: populateQueryStatus,
+            dataType: "json",
+        });
+        $.ajax({
+            url: window.location.origin + "/picsure/proxy/uploader/sites",
+            headers: {
+              Authorization: "Bearer " + JSON.parse(sessionStorage.getItem("session")).token,
+            },
+            contentType: "application/json",
+            type: "GET",
+            success: populateSites,
+            dataType: "json",
+        });
+    },
+    setSite(event) {
+        this.model.set("selectedSite", event.target.value);
+    },
+    populateSites(response) {
+        this.model.set("sites", response);
+        this.model.set("selectedSite", response[0]);
+    },
+    populateQueryStatus(response) {
+        this.model.set("approved", response.approved);
+        this.model.set("site", response.site);
+        this.model.set("genomicStatus", response.genomic);
+        this.model.set("genomicStatusIcon", statusIconMapping[response.genomic]);
+        this.model.set("phenotypicStatus", response.phenotypic);
+        this.model.set("phenotypicStatusIcon", statusIconMapping[response.phenotypic]);
+
+        // Enable upload if neither geno/pheno are Uploaded or Uploading
+        this.model.set("disableUpload", (response.phenotypic  + response.genomic).includes("Upload"));
+        this.render();
+    },
+    uploadData() {
+        var query = this.model.get("queryData").query;
+        query.picSureId = this.model.get("queryId");
+        var site = this.model.get("selectedSite");
+        var populateQueryStatus = this.populateQueryStatus;
+        $.ajax({
+            url: window.location.origin + "/picsure/proxy/uploader/upload/" + site,
+            headers: {
+              Authorization: "Bearer " + JSON.parse(sessionStorage.getItem("session")).token,
+            },
+            data: JSON.stringify(query),
+            contentType: "application/json",
+            type: "POST",
+            success: populateQueryStatus,
+            dataType: "json",
+        });
+    },
+    approveQueryForUpload(event) {
+        var date = event.target.value;
+        this.model.set("approved", date);
+        var queryID = this.model.get("queryId");
+        var populateQueryStatus = this.populateQueryStatus;
+        $.ajax({
+            url: window.location.origin + "/picsure/proxy/uploader/status/" + queryID + "/approve?date=" + date,
+            headers: {
+              Authorization: "Bearer " + JSON.parse(sessionStorage.getItem("session")).token,
+            },
+            contentType: "application/json",
+            type: "GET",
+            success: populateQueryStatus,
+            dataType: "json",
+        });
     },
     onDownloadClick() {
       var downloadData =

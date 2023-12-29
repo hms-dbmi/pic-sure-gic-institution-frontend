@@ -29,10 +29,8 @@ define([
     },
     searchClearButtonHandler: function (event) {
       $("input.request-search-box", this.$el).val("");
-      $("#request-result-header").css("display", "none");
-      $("#request-search-result-container").css("display", "none");
-      $("#send-data-header").css("display", "none");
-      $("#send-data-body").css("display", "none");
+      $("#dataset-request-2").css("display", "none");
+      $("#dataset-request-3").css("display", "none");
       this.model.set("searchTerm", "");
     },
     searchButtonHandler: function (event) {
@@ -59,10 +57,8 @@ define([
     showResult: function (result) {
       $("#request-search-result-container").empty();
       if (result.error) {
-        $("#request-result-header").css("display", "none");
-        $("#request-search-result-container").css("display", "none");
-        $("#send-data-header").css("display", "none");
-        $("#send-data-body").css("display", "none");
+        $("#dataset-request-2").css("display", "none");
+        $("#dataset-request-3").css("display", "none");
         $("#dataset-request-search-input").val("")
         $("#request-search-result-container").append(
           '<div class="request-search-none">No Results Found</div>'
@@ -76,8 +72,7 @@ define([
             uuid: this.model.get("searchTerm")
           },
         });
-        $("#request-result-header").css("display", "");
-        $("#request-search-result-container").css("display", "");
+        $("#dataset-request-2").css("display", "");
         requestSearchResultView.render();
         $("#request-search-result-container").append(
           requestSearchResultView.$el
