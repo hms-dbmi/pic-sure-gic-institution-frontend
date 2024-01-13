@@ -1,11 +1,11 @@
 define([
   "backbone", "handlebars",
   "text!requestSearch/requestSearchResult.hbs",
-  "common/modal", "dataset/dataset-view"
+  "common/modal", "dataset/dataset-view", "requestSearch/dataStoreLocationHelp", "requestSearch/verifySendModal"
 ], function (
   BB, HBS,
   requestSearchResultTemplate,
-  modal, viewDataset
+  modal, viewDataset, viewHelp, confirmUpload
 ) {
   var statusIconMapping = {
     'Uploaded': 'fa-circle-check',
@@ -21,6 +21,11 @@ define([
       queryData: {},
       approved: "",
       sites: [],
+      homeSite: {
+        site: "",
+        display: "",
+      },
+      requesterEmail: "Unknown",
       disableUpload: "true",
     },
   });
@@ -34,11 +39,14 @@ define([
       this.populateSites = this.populateSites.bind(this);
       this.setSite = this.setSite.bind(this);
       this.uploadData = this.uploadData.bind(this);
-      this.onDownloadClick = this.render.bind(this);
+      this.openVerifySend = this.openVerifySend.bind(this);
+      this.onDownloadClick = this.onDownloadClick.bind(this);
       this.model.set("s3Directory", opts.queryResult.id);
       this.model.set("queryStartDate", opts.queryResult.date);
       this.model.set("queryId", opts.queryResult.uuid);
       this.model.set("queryData", opts.queryResult.data);
+      this.model.set("commonAreaID", opts.queryResult.data.commonAreaUUID);
+      this.model.set("requesterEmail", opts.queryResult.data.requesterEmail);
       this.fetchQueryStatus();
     },
     tagName: "div",
@@ -46,7 +54,8 @@ define([
     events: {
       "click .request-result-data-button": "onDownloadClick",
       "click #data-request-btn": "openDataRequestModal",
-      "click #upload-data-button": "uploadData",
+      "click #data-store-help-button": "openDataStoreHelp",
+      "click #upload-data-button": "openVerifySend",
       "input #query-approved": "approveQueryForUpload",
       "change #site-select": "setSite"
     },
@@ -82,8 +91,10 @@ define([
         this.model.set("selectedSite", event.target.value);
     },
     populateSites(response) {
-        this.model.set("sites", response);
-        this.model.set("selectedSite", response[0]);
+        this.model.set("sites", response.sites);
+        this.model.set("selectedSite", response.homeSite);
+        this.model.set("homeSite", { site: response.homeSite, display: response.homeDisplay });
+        this.render();
     },
     populateQueryStatus(response) {
         this.model.set("approved", response.approved);
@@ -155,6 +166,38 @@ define([
           "View Dataset",
           onClose,
           { width: "40%" }
+      );
+    },
+    openDataStoreHelp: function(){
+      const onClose = (view) => {
+        $(".close").click();
+        $("#data-request-btn").focus();
+      };
+
+      modal.displayModal(
+          new viewHelp({ onClose }),
+          "Data Storage Location",
+          onClose,
+          { width: "50%" }
+      );
+    },
+    openVerifySend: function(){
+      const onClose = (view) => {
+        $(".close").click();
+        $("#data-request-btn").focus();
+      };
+      const onSend = this.uploadData;
+      const data = {
+        datasetUUID: this.model.get("queryId"),
+        commonAreaID: this.model.get("commonAreaID"),
+        site: this.model.get("site"),
+      };
+
+      modal.displayModal(
+          new confirmUpload({ onClose, onSend }),
+          "",
+          onClose,
+          { width: "19%" }
       );
     },
     render: function () {
