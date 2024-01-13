@@ -1,17 +1,27 @@
 <div class="col-md-6 centered-flex-container">
+    <div>
+        <b>Lead PI: </b>{{requesterEmail}}
+    </div>
+    <div>
+        <b>Data Directory: </b>{{commonAreaID}}
+    </div>
     <div style="padding: 5px;"><button id="data-request-btn" class="btn btn-outline primary">
         <i class="fa-solid fa-file-pdf fa-xl request-result-icon"></i>Data Request Summary</button>
     </div>
-    <div style="padding: 5px; margin-bottom: 10px;"><button id="ids-and-consents-btn" class="btn btn-outline primary">
+    <div style="padding: 5px; margin-bottom: 10px; display: none;"><button id="ids-and-consents-btn" class="btn btn-outline primary">
         <i class="fa-solid fa-file fa-xl request-result-icon"></i>Patient IDs &amp; Consents</button>
     </div>
 </div>
 <div class="col-md-6 request-result-header">
-    <label for="start">Approved by SDAC</label>
-    <input
-        type="date" id="query-approved" name="query-approved"
-        value="{{approved}}" min="2000-01-01" max="2039-01-18"
-    />
+    <div>
+        <label for="query-approved">Approved by {{homeSite.display}} SDAC</label>
+    </div>
+    <div>
+        <input
+                type="date" id="query-approved" name="query-approved"
+                value="{{approved}}" min="2000-01-01" max="2039-01-18"
+        />
+    </div>
 </div>
 {{#if approved}}
     <div id="dataset-request-3" style="width: 100%;">
@@ -21,7 +31,10 @@
         </div>
 
         <div id="send-data-body">
-            <div class="col-md-4 request-result-header"><h4>Data Storage Location</h4></div>
+            <div class="col-md-4 request-result-header">
+                <h4 style="display: inline;">Data Storage Location</h4>
+                <i id="data-store-help-button" class="fa-regular fa-circle-question" style="margin-left: 5px;"></i>
+            </div>
             <div class="col-md-4 request-result-header"><h4>Send Data to SWB</h4></div>
             <div class="col-md-4 request-result-header"><h4>Status</h4></div>
             <div class="col-md-12 centered-flex-container">
