@@ -123,3 +123,7 @@
 	border-radius: 5px;
 	padding: 10px;
 }
+
+.super-rounded {
+    border-radius: 15px;
+}
