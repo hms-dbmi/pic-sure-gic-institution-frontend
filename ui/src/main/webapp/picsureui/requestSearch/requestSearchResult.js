@@ -56,6 +56,7 @@ define([
       "click #data-request-btn": "openDataRequestModal",
       "click #data-store-help-button": "openDataStoreHelp",
       "click #upload-data-button": "openVerifySend",
+      "click #refresh-status-btn": "fetchQueryStatus",
       "input #query-approved": "approveQueryForUpload",
       "change #site-select": "setSite"
     },
@@ -63,7 +64,11 @@ define([
       this.model.clear().set(this.model.defaults);
     },
     fetchQueryStatus() {
-        var queryID = this.model.get("queryId");
+        var queryID = this.model.get("commonAreaID");
+        if (!queryID) {
+            // support queries not made in common area
+            queryID = this.model.get("queryId");
+        }
         var populateQueryStatus = this.populateQueryStatus;
         var populateSites = this.populateSites;
         $.ajax({
@@ -110,7 +115,11 @@ define([
     },
     uploadData() {
         var query = this.model.get("queryData").query;
-        query.picSureId = this.model.get("queryId");
+        query.picSureId = this.model.get("commonAreaID");
+        if (!query.picSureId) {
+            // support queries not made in common area
+            query.picSureId = this.model.get("queryId");
+        }
         var site = this.model.get("selectedSite");
         var populateQueryStatus = this.populateQueryStatus;
         $.ajax({
@@ -128,7 +137,11 @@ define([
     approveQueryForUpload(event) {
         var date = event.target.value;
         this.model.set("approved", date);
-        var queryID = this.model.get("queryId");
+        var queryID = this.model.get("commonAreaID");
+        if (!queryID) {
+            // support queries not made in common area
+            queryID = this.model.get("queryId");
+        }
         var populateQueryStatus = this.populateQueryStatus;
         $.ajax({
             url: window.location.origin + "/picsure/proxy/uploader/status/" + queryID + "/approve?date=" + date,
