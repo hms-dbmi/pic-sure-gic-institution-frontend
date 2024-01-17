@@ -5,7 +5,7 @@
     <div>
         <b>Data Directory: </b>{{commonAreaID}}
     </div>
-    <div style="padding: 5px;"><button id="data-request-btn" class="btn btn-outline primary">
+    <div style="padding: 5px; margin-bottom: 40px;"><button id="data-request-btn" class="btn btn-outline primary super-rounded">
         <i class="fa-solid fa-file-pdf fa-xl request-result-icon"></i>Data Request Summary</button>
     </div>
     <div style="padding: 5px; margin-bottom: 10px; display: none;"><button id="ids-and-consents-btn" class="btn btn-outline primary">
@@ -27,7 +27,7 @@
     <div id="dataset-request-3" style="width: 100%;">
         <div class="col-md-12">
             <span class="circle-border">3</span>
-            <h2 class="header-with-icon" style="display: inline;">Share Patient-Level Data</h2>
+            <h3 class="header-with-icon" style="display: inline;">Share Patient-Level Data</h3>
         </div>
 
         <div id="send-data-body">
@@ -35,8 +35,13 @@
                 <h4 style="display: inline;">Data Storage Location</h4>
                 <i id="data-store-help-button" class="fa-regular fa-circle-question" style="margin-left: 5px;"></i>
             </div>
-            <div class="col-md-4 request-result-header"><h4>Send Data to SWB</h4></div>
-            <div class="col-md-4 request-result-header"><h4>Status</h4></div>
+            <div class="col-md-4 request-result-header">
+                <h4 style="display: inline;">Send Data to SWB</h4>
+            </div>
+            <div class="col-md-4 request-result-header">
+                <h4 style="display: inline;">Status</h4>
+                <button id="refresh-status-btn"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
             <div class="col-md-12 centered-flex-container">
                 <div class="divider"></div>
             </div>
@@ -52,7 +57,7 @@
                 {{/if}}
             </div>
             <div class="col-md-4 request-result-header">
-                <button id="upload-data-button" {{#if disableUpload}}disabled="true"{{/if}}>
+                <button id="upload-data-button" class="super-rounded" {{#if disableUpload}}disabled="disabled"{{/if}}>
                     <h3 class="fa-solid fa-arrow-up-from-bracket request-result-icon"></h3>
                     Send patient level data
                 </button>
