@@ -26,7 +26,8 @@ define([
         display: "",
       },
       requesterEmail: "Unknown",
-      disableUpload: "true",
+      sendGenoData: false,
+      sendPhenoData: false,
     },
   });
   var requestSearchResultView = BB.View.extend({
@@ -41,6 +42,8 @@ define([
       this.uploadData = this.uploadData.bind(this);
       this.openVerifySend = this.openVerifySend.bind(this);
       this.onDownloadClick = this.onDownloadClick.bind(this);
+      this.toggleGeno = this.toggleGeno.bind(this);
+      this.togglePheno = this.togglePheno.bind(this);
       this.model.set("s3Directory", opts.queryResult.id);
       this.model.set("queryStartDate", opts.queryResult.date);
       this.model.set("queryId", opts.queryResult.uuid);
@@ -57,11 +60,19 @@ define([
       "click #data-store-help-button": "openDataStoreHelp",
       "click #upload-data-button": "openVerifySend",
       "click #refresh-status-btn": "fetchQueryStatus",
+      "click #pheno_check": "togglePheno",
+      "click #geno_check": "toggleGeno",
       "input #query-approved": "approveQueryForUpload",
       "change #site-select": "setSite"
     },
     reset: function () {
       this.model.clear().set(this.model.defaults);
+    },
+    togglePheno() {
+        this.model.set('sendPhenoData', !this.model.get('sendPhenoData'))
+    },
+    toggleGeno() {
+        this.model.set('sendGenoData', !this.model.get('sendGenoData'))
     },
     fetchQueryStatus() {
         var queryID = this.model.get("commonAreaID");
@@ -109,11 +120,9 @@ define([
         this.model.set("phenotypicStatus", response.phenotypic);
         this.model.set("phenotypicStatusIcon", statusIconMapping[response.phenotypic]);
 
-        // Enable upload if neither geno/pheno are Uploaded or Uploading
-        this.model.set("disableUpload", (response.phenotypic  + response.genomic).includes("Upload"));
         this.render();
     },
-    uploadData() {
+    uploadData(dataType) {
         var query = this.model.get("queryData").query;
         query.picSureId = this.model.get("commonAreaID");
         if (!query.picSureId) {
@@ -123,7 +132,7 @@ define([
         var site = this.model.get("selectedSite");
         var populateQueryStatus = this.populateQueryStatus;
         $.ajax({
-            url: window.location.origin + "/picsure/proxy/uploader/upload/" + site,
+            url: window.location.origin + "/picsure/proxy/uploader/upload/" + site + "?dataType=" + dataType,
             headers: {
               Authorization: "Bearer " + JSON.parse(sessionStorage.getItem("session")).token,
             },
@@ -199,15 +208,25 @@ define([
         $(".close").click();
         $("#data-request-btn").focus();
       };
-      const onSend = this.uploadData;
+      const upload = this.uploadData;
       const data = {
         datasetUUID: this.model.get("queryId"),
         commonAreaID: this.model.get("commonAreaID"),
         site: this.model.get("site"),
+        sendPhenoData: this.model.get('sendPhenoData'),
+        sendGenoData: this.model.get('sendGenoData'),
+      };
+      const onSend = function () {
+        if (data.sendGenoData) {
+          upload("Genomic");
+        }
+        if (data.sendPhenoData) {
+          upload("Phenotypic");
+        }
       };
 
       modal.displayModal(
-          new confirmUpload({ onClose, onSend }),
+          new confirmUpload({ onClose, onSend }, data),
           "",
           onClose,
           { width: "19%" }
