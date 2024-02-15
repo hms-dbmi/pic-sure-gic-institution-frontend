@@ -6,9 +6,10 @@ define([
     template, modal
 ){
     return BB.View.extend({
-        initialize : function(handlers){
+        initialize : function(handlers, state){
             this.template = HBS.compile(template);
             this.handlers = handlers;
+            Object.assign(this, state);
         },
         events: {
             "click #verify-send-modal-cancel-btn": "onClose",

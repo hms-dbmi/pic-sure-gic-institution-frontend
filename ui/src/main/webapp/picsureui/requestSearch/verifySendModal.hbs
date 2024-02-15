@@ -1,8 +1,12 @@
 <div id="upload-data-confirmation">
     <div class="row">
-        <div class="col-md-12" style="margin-bottom: 5px; text-align: center;">
-            Are you sure you want to send {{datasetUUID}}
-            to {{site}} in folder {{commonAreaID}} for use in Service Workbench?
+        <div class="col-md-12" style="margin-bottom: 5px;">
+            Are you sure you want to send to {{site}} in folder {{commonAreaID}} for use in Service Workbench?
+            The following data will be sent:
+            <ul>
+                {{#if sendPhenoData}}<li><i class="fa-solid fa-notes-medical"></i> Phenotypic Data</li>{{/if}}
+                {{#if sendGenoData}}<li><i class="fa-solid fa-dna"></i> Variant data for selected genes</li>{{/if}}
+            </ul>
         </div>
     </div>
     <div class="row">
