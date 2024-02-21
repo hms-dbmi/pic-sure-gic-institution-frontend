@@ -36,7 +36,8 @@
                 <i id="data-store-help-button" class="fa-regular fa-circle-question" style="margin-left: 5px;"></i>
             </div>
             <div class="col-md-4 request-result-header">
-                <h4 style="display: inline;">Send Data to SWB</h4>
+                <h4 style="display: inline;">Select &amp; Send Data</h4>
+                <i id="data-types-help-button" class="fa-regular fa-circle-question" style="margin-left: 5px;"></i>
             </div>
             <div class="col-md-4 request-result-header">
                 <h4 style="display: inline;">Status</h4>
@@ -60,16 +61,15 @@
                 <div style="width: 100%;">
                     <div>
                         <input type="checkbox" id="pheno_check" name="pheno_check" {{#if sendPhenoData}}checked{{/if}}>
-                        <label for="pheno_check"><i class="fa-solid fa-notes-medical"></i> Phenotypic Data</label>
+                        <label style="font-weight: normal;" for="pheno_check">Phenotypic data</label>
                     </div>
                     <div>
                         <input type="checkbox" id="geno_check" name="geno_check" {{#if sendGenoData}}checked{{/if}}>
-                        <label for="geno_check"><i class="fa-solid fa-dna"></i> Annotated variant data for selected genes</label>
+                        <label style="font-weight: normal;" for="geno_check">Annotated variant data for selected genes</label>
                     </div>
                 </div>
-                <button id="upload-data-button" class="super-rounded">
-                    <h3 class="fa-solid fa-arrow-up-from-bracket request-result-icon"></h3>
-                    Send patient level data
+                <button id="upload-data-button" class="btn btn-outline success super-rounded">
+                    Send Data
                 </button>
             </div>
             <div class="col-md-4 request-result-header">

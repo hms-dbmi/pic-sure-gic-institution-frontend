@@ -1,14 +1,18 @@
 define([
   "backbone", "handlebars",
   "text!requestSearch/requestSearchResult.hbs",
-  "common/modal", "dataset/dataset-view", "requestSearch/dataStoreLocationHelp", "requestSearch/verifySendModal"
+  "common/modal", "dataset/dataset-view", "requestSearch/dataStoreLocationHelp", "requestSearch/verifySendModal",
+  "requestSearch/alertUploadTime", "requestSearch/dataTypesHelp",
 ], function (
   BB, HBS,
   requestSearchResultTemplate,
-  modal, viewDataset, viewHelp, confirmUpload
+  modal, viewDataset, viewHelp, confirmUpload,
+  alertUploadTime, dataTypesHelp
 ) {
   var statusIconMapping = {
     'Uploaded': 'fa-circle-check',
+    'Querying': 'fa-magnifying-glass',
+    'Queued': 'fa-hourglass',
     'Unsent': 'fa-circle-xmark',
     'Unknown': 'fa-circle-question',
     'Error': 'fa-circle-xmark',
@@ -42,6 +46,7 @@ define([
       this.uploadData = this.uploadData.bind(this);
       this.openVerifySend = this.openVerifySend.bind(this);
       this.onDownloadClick = this.onDownloadClick.bind(this);
+      this.displayAlertThenPopulateStatus = this.displayAlertThenPopulateStatus.bind(this);
       this.toggleGeno = this.toggleGeno.bind(this);
       this.togglePheno = this.togglePheno.bind(this);
       this.model.set("s3Directory", opts.queryResult.id);
@@ -58,6 +63,7 @@ define([
       "click .request-result-data-button": "onDownloadClick",
       "click #data-request-btn": "openDataRequestModal",
       "click #data-store-help-button": "openDataStoreHelp",
+      "click #data-types-help-button": "openDataTypesHelp",
       "click #upload-data-button": "openVerifySend",
       "click #refresh-status-btn": "fetchQueryStatus",
       "click #pheno_check": "togglePheno",
@@ -112,6 +118,24 @@ define([
         this.model.set("homeSite", { site: response.homeSite, display: response.homeDisplay });
         this.render();
     },
+    displayAlertThenPopulateStatus(response) {
+        if (localStorage.getItem("disable-upload-reminder") === 'true') {
+            this.populateQueryStatus(response);
+        } else {
+            const populateQueryStatus = this.populateQueryStatus;
+            const onClose = (view) => {
+              $(".close").click();
+              $("#data-request-btn").focus();
+              populateQueryStatus(response);
+            };
+            modal.displayModal(
+              new alertUploadTime({ onClose }),
+              "",
+              onClose,
+              { width: "19%" }
+            );
+        }
+    },
     populateQueryStatus(response) {
         this.model.set("approved", response.approved);
         this.model.set("site", response.site);
@@ -130,7 +154,7 @@ define([
             query.picSureId = this.model.get("queryId");
         }
         var site = this.model.get("selectedSite");
-        var populateQueryStatus = this.populateQueryStatus;
+        var displayAlertThenPopulateStatus = this.displayAlertThenPopulateStatus;
         $.ajax({
             url: window.location.origin + "/picsure/proxy/uploader/upload/" + site + "?dataType=" + dataType,
             headers: {
@@ -139,7 +163,7 @@ define([
             data: JSON.stringify(query),
             contentType: "application/json",
             type: "POST",
-            success: populateQueryStatus,
+            success: displayAlertThenPopulateStatus,
             dataType: "json",
         });
     },
@@ -199,6 +223,19 @@ define([
       modal.displayModal(
           new viewHelp({ onClose }),
           "Data Storage Location",
+          onClose,
+          { width: "50%" }
+      );
+    },
+    openDataTypesHelp: function(){
+      const onClose = (view) => {
+        $(".close").click();
+        $("#data-request-btn").focus();
+      };
+
+      modal.displayModal(
+          new dataTypesHelp({ onClose }),
+          "Data Types",
           onClose,
           { width: "50%" }
       );
