@@ -1,32 +1,28 @@
 <div id="upload-data-confirmation">
     <div class="row">
         <div class="col-md-12" style="margin-bottom: 5px;">
-            Are you sure you want to send to {{site}} in folder {{commonAreaID}} for use in Service Workbench?
-            The following data will be sent:
+            Are you sure you want to send:
             <ul>
                 {{#if sendPhenoData}}<li><i class="fa-solid fa-notes-medical"></i> Phenotypic Data</li>{{/if}}
                 {{#if sendGenoData}}<li><i class="fa-solid fa-dna"></i> Variant data for selected genes</li>{{/if}}
             </ul>
+            to {{site}} GIC Service Workbench?
         </div>
     </div>
     <div class="row">
-        <section id="buttons" class="row">
-            <div class="col-md-6">
-                <button
+        <section id="buttons" style="display: flex; justify-content: space-around;">
+            <button
                     id="verify-send-modal-cancel-btn" class="btn btn-outline secondary tabable"
-                    tabindex="0" type="button" style="width: 100px;"
-                >
-                    Cancel
-                </button>
-            </div>
-            <div class="col-md-6">
-                <button
-                    id="verify-send-modal-send-btn" class="btn btn-outline action tabable"
-                    tabindex="1" type="button" style="width: 100px;"
-                >
-                    Send
-                </button>
-            </div>
+                    tabindex="0" type="button" style="width: 80px;"
+            >
+                Cancel
+            </button>
+            <button
+                    id="verify-send-modal-send-btn" class="btn btn-outline success tabable"
+                    tabindex="1" type="button" style="width: 80px;"
+            >
+                Send
+            </button>
         </section>
     </div>
 
