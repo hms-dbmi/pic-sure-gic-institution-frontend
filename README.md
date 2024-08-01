@@ -1,7 +1,7 @@
 # pic-sure-gic-institution
 
 Sites must deploy a Virtual Machine inside the security boundary of their institution with the following requirements: <br>
-<b>Operating system requirement:</b> Centos 7.x
+<b>Operating system requirement:</b> Any modern Linux operating system with good Docker support. We test on Alma Linux 8.7
 <p><b>Minimum resources required for the application:</b> 8 cores and 32GB RAM
 <p><b>Resources for loading data:</b> The resources required to load the data are determined based on the attributes of the data (number of patients, metadata per patient, annotations, etc.) and the mechanism to load the data (CSV, RDS). <br>
 
@@ -27,7 +27,7 @@ Using the CSV loader may result in more resources being needed.
 ## PIC-SURE Installation<br>
 For additonal information about PIC-SURE and prerequisites for using the All-in-one click [here](https://github.com/hms-dbmi/pic-sure-all-in-one "here")
 
-  <b> Steps to install on a fresh Centos 7 installation:</b>
+  <b> Steps for installing on a fresh server with Docker installed:</b>
 
 1. Install Git
 
@@ -41,7 +41,7 @@ For additonal information about PIC-SURE and prerequisites for using the All-in-
 
 `cd pic-sure-all-in-one/initial-configuration`
 
-`sudo ./install-dependencies.sh`
+`sudo ./install-dependencies-docker.sh`
 
 4. Browse to Jenkins server
 Point your browser at your server's IP on port `8080`. 
