@@ -101,5 +101,12 @@ SET @uuidConn = REPLACE(UUID(),'-','');
 INSERT INTO `connection` VALUES (unhex(@uuidConn), 'Manual Token Connection', 'manual-token','','');
 
 SET @uuidUser = REPLACE(UUID(),'-','');	
-INSERT INTO user VALUES (unhex(@uuidUser), null, null, null, unhex(@uuidConn),'CommonAreaUser',0,concat('PIC_SURE_USER|', REPLACE(UUID(),'-','')),1,null);
-INSERT INTO user_role VALUES (unhex(@uuidUser), unhex(@uuidRole));
+INSERT INTO user
+    (uuid, auth0_metadata, general_metadata, acceptedTOS, connectionId, email, matched, subject, is_active, long_term_token)
+VALUES
+    (unhex(@uuidUser), null, null, null, unhex(@uuidConn),'CommonAreaUser',0,concat('PIC_SURE_USER|', REPLACE(UUID(),'-','')),1,null);
+
+INSERT INTO user_role
+    (user_id, role_id)
+VALUES
+    (unhex(@uuidUser), unhex(@uuidRole));
