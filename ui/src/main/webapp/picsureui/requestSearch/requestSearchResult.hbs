@@ -67,6 +67,10 @@
                         <input type="checkbox" id="geno_check" name="geno_check" {{#if sendGenoData}}checked{{/if}}>
                         <label style="font-weight: normal;" for="geno_check">Annotated variant data for selected genes</label>
                     </div>
+                    <div>
+                        <input type="checkbox" id="patient_check" name="patient_check" {{#if sendPatientData}}checked{{/if}}>
+                        <label style="font-weight: normal;" for="patient_check">List of involved patients</label>
+                    </div>
                 </div>
                 <button id="upload-data-button" class="btn btn-outline success super-rounded">
                     Send Data
@@ -79,6 +83,9 @@
                 <div>
                     <i class="fa-solid {{phenotypicStatusIcon}} request-result-icon"></i> Phenotypic Data: {{phenotypicStatus}}
                 </div>
+            <div>
+                <i class="fa-solid {{patientStatusIcon}} request-result-icon"></i> Patient List: {{patientStatus}}
+            </div>
             </div>
         </div>
     </div>

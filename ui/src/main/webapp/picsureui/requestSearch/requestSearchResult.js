@@ -32,6 +32,7 @@ define([
       requesterEmail: "Unknown",
       sendGenoData: false,
       sendPhenoData: false,
+      sendPatientData: false,
     },
   });
   var requestSearchResultView = BB.View.extend({
@@ -48,6 +49,7 @@ define([
       this.onDownloadClick = this.onDownloadClick.bind(this);
       this.displayAlertThenPopulateStatus = this.displayAlertThenPopulateStatus.bind(this);
       this.toggleGeno = this.toggleGeno.bind(this);
+      this.togglePatient = this.togglePatient.bind(this);
       this.togglePheno = this.togglePheno.bind(this);
       this.model.set("s3Directory", opts.queryResult.id);
       this.model.set("queryStartDate", opts.queryResult.date);
@@ -68,6 +70,7 @@ define([
       "click #refresh-status-btn": "fetchQueryStatus",
       "click #pheno_check": "togglePheno",
       "click #geno_check": "toggleGeno",
+      "click #patient_check": "togglePatient",
       "input #query-approved": "approveQueryForUpload",
       "change #site-select": "setSite"
     },
@@ -79,6 +82,9 @@ define([
     },
     toggleGeno() {
         this.model.set('sendGenoData', !this.model.get('sendGenoData'))
+    },
+    togglePatient() {
+        this.model.set('sendPatientData', !this.model.get('sendPatientData'))
     },
     fetchQueryStatus() {
         var queryID = this.model.get("commonAreaID");
@@ -143,6 +149,8 @@ define([
         this.model.set("genomicStatusIcon", statusIconMapping[response.genomic]);
         this.model.set("phenotypicStatus", response.phenotypic);
         this.model.set("phenotypicStatusIcon", statusIconMapping[response.phenotypic]);
+        this.model.set("patientStatus", response.patient);
+        this.model.set("patientStatusIcon", statusIconMapping[response.patient]);
 
         this.render();
     },
@@ -252,10 +260,14 @@ define([
         site: this.model.get("site"),
         sendPhenoData: this.model.get('sendPhenoData'),
         sendGenoData: this.model.get('sendGenoData'),
+        sendPatientData: this.model.get('sendPatientData'),
       };
       const onSend = function () {
         if (data.sendGenoData) {
           upload("Genomic");
+        }
+        if (data.sendPatientData) {
+          upload("Patient");
         }
         if (data.sendPhenoData) {
           upload("Phenotypic");
